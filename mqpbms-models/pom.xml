@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>mqpbms-parent</artifactId>
+        <groupId>org.mqpbms</groupId>
+        <version>1.0.0</version>
+        <relativePath>..</relativePath>
+    </parent>
+
+    <artifactId>mqpbms-models</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0.0</version>
+    <name>Multiple-Criteria Query Probabilities Based Monitoring System Model Package</name>
+    <description>Multiple-Criteria Query Probabilities Based Monitoring System Model Package</description>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.akiban</groupId>
+            <artifactId>akiban-sql-parser</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.flexjson</groupId>
+            <artifactId>flexjson</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <finalName>mqpbms-models</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

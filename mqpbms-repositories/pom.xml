@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>mqpbms-parent</artifactId>
+        <groupId>org.mqpbms</groupId>
+        <version>1.0.0</version>
+        <relativePath>..</relativePath>
+    </parent>
+
+    <artifactId>mqpbms-repositories</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0.0</version>
+    <name>Multiple-Criteria Query Probabilities Based Monitoring System Repository Package</name>
+    <description>Multiple-Criteria Query Probabilities Based Monitoring System Repository Package</description>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.mqpbms</groupId>
+            <artifactId>mqpbms-models</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.datastax.cassandra</groupId>
+            <artifactId>cassandra-driver-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-dao</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <finalName>mqpbms-repositories</finalName>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+
+</project>

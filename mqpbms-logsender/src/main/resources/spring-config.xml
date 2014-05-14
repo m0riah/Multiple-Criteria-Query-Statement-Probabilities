@@ -1,0 +1,71 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:batch="http://www.springframework.org/schema/batch"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd">
+
+    <import resource="spring-dataSource.xml"/>
+
+    <bean class="org.springframework.batch.test.JobLauncherTestUtils"/>
+
+    <bean id="jobLauncher"
+          class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+        <property name="jobRepository" ref="jobRepository"/>
+    </bean>
+
+    <bean id="lobHandler" class="org.springframework.jdbc.support.lob.DefaultLobHandler"/>
+
+    <bean id="jobRepository"
+          class="org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="transactionManager" ref="transactionManager"/>
+        <property name="lobHandler" ref="lobHandler"/>
+    </bean>
+
+    <bean id="jobRegistry"
+          class="org.springframework.batch.core.configuration.support.MapJobRegistry"/>
+
+    <bean id="generalLogReader"
+          class="org.springframework.batch.item.database.JdbcCursorItemReader" scope="step">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="sql"
+                  value="${data.itemReader.query}"/>
+        <property name="rowMapper">
+            <bean class="org.mqpbms.logsender.GeneralLogMapper"/>
+        </property>
+    </bean>
+
+
+    <bean id="preprocessorService" class="org.mqpbms.logsender.DefaultGeneralLogProcessor" scope="step">
+    </bean>
+
+    <bean id="processedLogWriter"
+          class="org.mqpbms.logsender.JsonGeneralLogWriter">
+        <property name="postUrl" value="${preprocessor.mysqlLog.desturl}"/>
+    </bean>
+
+    <!--The definition of a job restartable="false" incrementer="incrementer"-->
+    <batch:job id="mysqlLogSend">
+        <batch:step id="step1">
+            <batch:tasklet transaction-manager="transactionManager">
+                <batch:chunk reader="generalLogReader" processor="preprocessorService"
+                             writer="processedLogWriter"
+                             commit-interval="50"/>
+            </batch:tasklet>
+        </batch:step>
+    </batch:job>
+
+    <bean id="runScheduler" class="org.mqpbms.logsender.RunScheduler">
+        <property name="refreshLogCommand" value="${shell.refresh.log}"/>
+        <property name="job" ref="mysqlLogSend"/>
+        <property name="jobLauncher" ref="jobLauncher"/>
+    </bean>
+
+    <!--Run the job every 1 sec-->
+    <task:scheduled-tasks>
+        <task:scheduled ref="runScheduler" method="run" cron="*/1 * * * * *"/>
+    </task:scheduled-tasks>
+
+</beans>
