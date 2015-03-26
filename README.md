@@ -1,5 +1,4 @@
-## Multiple-Criteria Query Statement Probabilities Based Database
-Insider Attack Monitoring System
+## Multiple-Criteria Query Statement Probabilities Based Database Insider Attack Monitoring System
 
 This is an implementation of Multiple-Criteria Query Statement Probabilities Based Database
 Insider Attack Monitoring System which was a capstone project for my master degree. 
